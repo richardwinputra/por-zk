@@ -23,10 +23,27 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Match any absolute path that ends in `.../por-zk/<rel>` and replace with `<rel>`.
-# The repo's enclosing directory contains spaces ("My Drive", "Research Paper"...),
-# so we allow any character except newline / quote / comma in the prefix.
+# Strip any absolute prefix up through the repo root marker `/por-zk/`.
+# The enclosing directory may contain spaces ("My Drive", "Research Paper"...),
+# so we allow any character except newline/quote in the prefix.
 ABS_PATH_RE = re.compile(r"/[^\n\"]*?/por-zk/")
+
+# Strip the user-home prefix from nargo's local crate cache, e.g.
+#   /Users/<user>/nargo/github.com/noir-lang/schnorr/v0.1.3/src/lib.nr
+# becomes
+#   nargo/github.com/noir-lang/schnorr/v0.1.3/src/lib.nr
+NARGO_CACHE_RE = re.compile(r"(?:/Users/[^/\"\n]+|/home/[^/\"\n]+)/(\.?nargo/)")
+
+# Catch-all: strip any remaining "/Users/<user>/" or "/home/<user>/" home prefix
+# that didn't match one of the more specific rules above.
+HOME_PREFIX_RE = re.compile(r"/Users/[^/\"\n]+/|/home/[^/\"\n]+/")
+
+
+def scrub(text: str) -> str:
+    text = ABS_PATH_RE.sub("", text)
+    text = NARGO_CACHE_RE.sub(r"\1", text)
+    text = HOME_PREFIX_RE.sub("", text)
+    return text
 
 
 def scrub_csv(path: Path) -> tuple[int, int]:
@@ -43,8 +60,9 @@ def scrub_csv(path: Path) -> tuple[int, int]:
     touched = 0
     for r in body:
         for i, cell in enumerate(r):
-            if ABS_PATH_RE.search(cell):
-                r[i] = ABS_PATH_RE.sub("", cell)
+            new = scrub(cell)
+            if new != cell:
+                r[i] = new
                 touched += 1
     with path.open("w", newline="") as f:
         w = csv.writer(f, quoting=csv.QUOTE_MINIMAL, lineterminator="\n")
@@ -64,7 +82,7 @@ def scrub_circuit_json(path: Path) -> int:
     n = 0
     for k, entry in fm.items():
         if isinstance(entry, dict) and isinstance(entry.get("path"), str):
-            new = ABS_PATH_RE.sub("", entry["path"])
+            new = scrub(entry["path"])
             if new != entry["path"]:
                 entry["path"] = new
                 n += 1
