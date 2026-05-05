@@ -1,0 +1,28 @@
+{
+  "name": "por-zk-ts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "tsx --test src/tests/*.test.ts",
+    "manifest": "tsx src/manifest.ts",
+    "correctness": "tsx src/run_correctness.ts",
+    "paired": "tsx src/paired.ts",
+    "bench": "tsx src/run_bench.ts",
+    "bench_baseline": "tsx src/run_bench_baseline.ts",
+    "case_study": "tsx src/run_case_study.ts"
+  },
+  "dependencies": {
+    "@aztec/bb.js": "0.82.2",
+    "@noir-lang/noir_js": "1.0.0-beta.3",
+    "@noir-lang/noirc_abi": "1.0.0-beta.3",
+    "@noir-lang/types": "1.0.0-beta.3",
+    "@iarna/toml": "^2.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

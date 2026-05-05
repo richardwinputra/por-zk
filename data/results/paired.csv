@@ -1,0 +1,3 @@
+id,name,effective_total,accepted,expected
+A,Paired A: all eligible,11300000000,true,true
+B,Paired B: accounts 4-5 ineligible,8000000000,false,false

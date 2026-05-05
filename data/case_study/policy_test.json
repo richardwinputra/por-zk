@@ -1,0 +1,8 @@
+{
+  "policy_id": "TEST-SYNTHETIC-V0",
+  "effective_date": "1970-01-01",
+  "purpose": "Fixed test policy used by all synthetic correctness scenarios (1-8, S1-S6, T1-T8). Not derived from any regulatory framework. Provides a deterministic shared policy_version field input across synthetic runs so that the policy-binding constraint is exercised under a non-zero, reproducible value.",
+  "approved_custodians": [],
+  "approved_reserve_asset_classes": [],
+  "ineligibility_conditions": []
+}

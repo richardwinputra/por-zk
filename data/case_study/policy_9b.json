@@ -1,0 +1,43 @@
+{
+  "policy_id": "USDC-RES-2023-03-12",
+  "effective_date": "2023-03-12",
+  "snapshot_anchor": "23:59 EDT 2023-03-12",
+  "jurisdiction": "United States",
+  "regulatory_basis": [
+    "MiCA Regulation (EU) 2023/1114, Art. 36(1) and Art. 37(1)",
+    "NYDFS Industry Letter, 2022-06-08",
+    "FSB Final Recommendations on Stablecoin Arrangements, 2023-07-17"
+  ],
+  "approved_reserve_asset_classes": [
+    "U.S. Treasury securities held under SEC Rule 2a-7 (Investment Company Act of 1940)",
+    "Cash deposits at U.S. regulated financial institutions"
+  ],
+  "approved_custodians": [
+    {"slot": 0, "name": "Circle Reserve Fund", "type": "government_money_market_fund", "status": "active"},
+    {"slot": 1, "name": "Bank of New York Mellon", "type": "regulated_bank", "status": "active"},
+    {"slot": 2, "name": "Customers Bank", "type": "regulated_bank", "status": "active"},
+    {"slot": 3, "name": "Citizens Trust Bank", "type": "regulated_bank", "status": "active"},
+    {"slot": 4, "name": "New York Community Bank", "type": "regulated_bank", "status": "active"}
+  ],
+  "ineligible_custodians": [
+    {"slot": 5, "name": "Silvergate Bank", "reason": "Voluntary liquidation announced 2023-03-08", "event_source": "Silvergate Capital Corporation press release, 2023-03-08"},
+    {"slot": 6, "name": "Silicon Valley Bank", "reason": "Closed by California Department of Financial Protection and Innovation; FDIC appointed receiver 2023-03-10", "event_source": "FDIC press release PR-16-2023, 2023-03-10"},
+    {"slot": 7, "name": "Signature Bank", "reason": "Closed by NYDFS; FDIC appointed receiver 2023-03-12", "event_source": "FDIC press release PR-18-2023, 2023-03-12"}
+  ],
+  "reserved_slots": [
+    {"slot": 8, "purpose": "post-crisis banking partner (unfilled at this date)"},
+    {"slot": 9, "purpose": "unused padding"}
+  ],
+  "ineligibility_conditions": [
+    "Custodian in FDIC receivership",
+    "Custodian in voluntary liquidation",
+    "Custodian under regulatory enforcement action that suspends fiduciary capacity",
+    "Custodian removed from Circle's approved-banking-partner list",
+    "Custodian failure of concentration or jurisdictional limit per MiCA Art. 37"
+  ],
+  "monitoring": {
+    "frequency": "monthly attestation per Deloitte engagement",
+    "auditor": "Deloitte and Touche LLP"
+  },
+  "notes": "Three custodians active on 2023-03-06 (Silvergate, SVB, Signature) became inadmissible during the week of 2023-03-08 to 2023-03-12 under the receivership and voluntary-liquidation conditions. Their slots remain present in the witness with eligibility flag zero, so the underlying balances do not contribute to the effective reserve."
+}

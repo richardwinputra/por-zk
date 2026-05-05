@@ -1,0 +1,13 @@
+{
+  "_schema": "Dated custody events that drive the eligibility-vector transitions between scenarios 9a, 9b, and 9c.",
+  "events": [
+    {"date": "2023-03-08", "slot": 5, "custodian": "Silvergate Bank", "event": "Voluntary liquidation announced", "source": "Silvergate Capital Corporation press release"},
+    {"date": "2023-03-10", "slot": 6, "custodian": "Silicon Valley Bank", "event": "Closed by California Department of Financial Protection and Innovation; FDIC appointed receiver", "source": "FDIC PR-16-2023"},
+    {"date": "2023-03-10", "slot": null, "custodian": "Circle public statement", "event": "Disclosed USD 3.3B held at SVB; out-of-band trust signal", "source": "Circle public statement"},
+    {"date": "2023-03-11", "slot": null, "custodian": "Circle CEO statement", "event": "CEO commitment to honor 1:1 redemption regardless of SVB outcome", "source": "Circle public statement"},
+    {"date": "2023-03-12", "slot": 7, "custodian": "Signature Bank", "event": "Closed by NYDFS; FDIC appointed receiver", "source": "FDIC PR-18-2023"},
+    {"date": "2023-03-12", "slot": null, "custodian": "U.S. Treasury / FDIC / Federal Reserve", "event": "Joint statement; depositor backstop announced for SVB and Signature", "source": "Joint Treasury/FDIC/Federal Reserve statement"},
+    {"date": "2023-03-13", "slot": 6, "custodian": "Silicon Valley Bank (depositor access)", "event": "Insured and uninsured depositors made whole", "source": "FDIC press release"},
+    {"date": "2023-03-31", "slot": 8, "custodian": "Cross River Bank", "event": "Onboarded as Circle banking partner; appears in Mar 31 attestation", "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-31"}
+  ]
+}

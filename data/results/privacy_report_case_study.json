@@ -1,0 +1,11 @@
+{
+  "proof_size_bytes": 14212,
+  "public_inputs": [
+    "supply",
+    "h_p",
+    "auditor_pk_x",
+    "auditor_pk_y"
+  ],
+  "structural_parameter": "N = 10",
+  "note": "Proof size invariant across case-study scenarios; verifier sees only the four public inputs."
+}

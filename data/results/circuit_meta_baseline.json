@@ -1,0 +1,17 @@
+{
+  "package": "circuit_baseline",
+  "circuit_path": "circuit_baseline/target/circuit_baseline.json",
+  "vk_path": "circuit_baseline/target/vk/vk",
+  "nargo_version": "1.0.0-beta.3",
+  "bb_version": "0.82.2",
+  "scheme": "ultra_honk",
+  "acir_opcodes": 173,
+  "brillig_opcodes": 8,
+  "brillig_opcodes_breakdown": {
+    "directive_integer_quotient": 8
+  },
+  "ultra_honk_gates": 3176,
+  "compile_time_ms_runs": [165, 253, 155, 149, 252],
+  "compile_time_ms_median": 165,
+  "compile_time_ms_mean": 194.8
+}

@@ -1,0 +1,23 @@
+{
+  "package": "circuit",
+  "circuit_path": "circuit/target/circuit.json",
+  "vk_path": "circuit/target/vk/vk",
+  "nargo_version": "1.0.0-beta.3",
+  "bb_version": "0.82.2",
+  "schnorr_crate_version": "v0.1.3",
+  "scheme": "ultra_honk",
+  "acir_opcodes": 1667,
+  "brillig_opcodes": 180,
+  "brillig_opcodes_breakdown": {
+    "decompose_hint": 36,
+    "__get_quotient": 85,
+    "__gt": 25,
+    "directive_integer_quotient": 8,
+    "directive_to_radix": 17,
+    "directive_invert": 9
+  },
+  "ultra_honk_gates": 25576,
+  "compile_time_ms_runs": [326, 209, 171, 176, 177],
+  "compile_time_ms_median": 177,
+  "compile_time_ms_mean": 211.8
+}

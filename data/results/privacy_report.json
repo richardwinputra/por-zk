@@ -1,0 +1,15 @@
+{
+  "proof_size_bytes_unique": [
+    14212
+  ],
+  "proof_size_invariant": true,
+  "public_inputs": [
+    "supply",
+    "h_p",
+    "auditor_pk_x",
+    "auditor_pk_y"
+  ],
+  "structural_parameter": "N = 10",
+  "note": "Across all 150 benchmark runs the proof size is invariant; verifier sees only the four listed public inputs.",
+  "seed": 4242
+}

@@ -1,0 +1,23 @@
+{
+  "_schema": "Per-bank illustrative cash split for slots 1-7 across the Mar 6 vector. Sums match the attested aggregate cash figure but individual values are not separately attested.",
+  "_attested": false,
+  "_note": "Used by case study scenarios 9a and 9b. The Mar 31 vector (9c) uses a different per-bank split tied to Circle's revised approved-banking-partner list.",
+  "mar06_split_usdm": [
+    {"slot": 1, "name": "Bank of New York Mellon", "value_usdm": 3500},
+    {"slot": 2, "name": "Customers Bank", "value_usdm": 1100},
+    {"slot": 3, "name": "Citizens Trust Bank", "value_usdm": 304},
+    {"slot": 4, "name": "New York Community Bank", "value_usdm": 400},
+    {"slot": 5, "name": "Silvergate Bank", "value_usdm": 2130},
+    {"slot": 6, "name": "Silicon Valley Bank", "value_usdm": 3300},
+    {"slot": 7, "name": "Signature Bank", "value_usdm": 700}
+  ],
+  "mar06_split_total_usdm": 11434,
+  "mar06_split_total_match_attested_usdm": 11434,
+  "mar31_split_usdm": [
+    {"slot": 1, "name": "Bank of New York Mellon", "value_usdm": 2200},
+    {"slot": 2, "name": "Customers Bank", "value_usdm": 900},
+    {"slot": 8, "name": "Cross River Bank", "value_usdm": 586}
+  ],
+  "mar31_split_total_usdm": 3686,
+  "mar31_split_total_match_attested_usdm": 3686
+}

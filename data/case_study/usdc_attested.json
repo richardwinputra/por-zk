@@ -1,0 +1,52 @@
+{
+  "_schema": "Each field carries: value (USDm), source, attested (bool), date (YYYY-MM-DD), note.",
+  "circle_reserve_fund_mar06": {
+    "value_usdm": 32366,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-06",
+    "attested": true,
+    "date": "2023-03-06",
+    "note": "Government money market fund value as of report date."
+  },
+  "aggregate_cash_at_banks_mar06": {
+    "value_usdm": 11434,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-06",
+    "attested": true,
+    "date": "2023-03-06",
+    "note": "Aggregate cash across the seven named cash custodians; per-bank split is not separately attested."
+  },
+  "svb_portion_mar10": {
+    "value_usdm": 3300,
+    "source": "Circle public statement, 2023-03-10",
+    "attested": false,
+    "date": "2023-03-10",
+    "note": "Disclosed by Circle on Mar 10, 2023 as the SVB-held cash portion."
+  },
+  "circulating_supply_mar06": {
+    "value_usdm": 43744,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-06",
+    "attested": true,
+    "date": "2023-03-06",
+    "note": "USDC tokens in circulation as of report date."
+  },
+  "circle_reserve_fund_mar31": {
+    "value_usdm": 28886,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-31",
+    "attested": true,
+    "date": "2023-03-31",
+    "note": "Government money market fund value as of report date."
+  },
+  "aggregate_cash_at_banks_mar31": {
+    "value_usdm": 3686,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-31",
+    "attested": true,
+    "date": "2023-03-31",
+    "note": "Aggregate cash across BNY Mellon, Cross River Bank, Customers Bank."
+  },
+  "circulating_supply_mar31": {
+    "value_usdm": 32519,
+    "source": "Deloitte-attested Circle USDC Reserve Report, 2023-03-31",
+    "attested": true,
+    "date": "2023-03-31",
+    "note": "USDC tokens in circulation as of report date; reduced by ~USD 11.23B in net redemptions during the depeg window."
+  }
+}

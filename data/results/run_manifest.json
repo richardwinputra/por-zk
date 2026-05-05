@@ -1,0 +1,16 @@
+{
+  "nargo_version": "1.0.0-beta.3",
+  "bb_version": "v0.82.2",
+  "bbjs_version": "0.82.2",
+  "noirc_abi_version": "1.0.0-beta.3",
+  "node_version": "v23.5.0",
+  "python_version": "Python 3.9.6",
+  "git_commit": "no-git",
+  "git_dirty": false,
+  "machine": "darwin arm64 Apple M1 Pro",
+  "os_release": "25.4.0",
+  "cpu_count": 8,
+  "memory_gb": 16,
+  "utc_timestamp": "2026-04-28T04:00:26.212Z",
+  "bench_seed": 4242
+}
