@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Node / TypeScript
+ts/node_modules/
+ts/dist/
+*.tsbuildinfo
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Noir / Barretenberg build artifacts (regenerable)
+circuit/target/
+circuit_baseline/target/
+
+# Run-time witness/proof working dirs (regenerable)
+data/proofs/
+data/scenarios/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp

@@ -1,11 +1,11 @@
 scenario,name,expected,executed,proved,verified,effective_total_usdm,supply_usdm,policy_version,pass,failure_stage,error_message
 9a,"USDC attested, Mar 6 2023",true,true,true,true,43800,43744,0x1e0597a5a917998ef17fc2fa7073a85a4a972acf8a516c5215cd2346cbd6abb0,true,,
 9b,"USDC crisis window, Mar 12 2023",false,false,false,false,37670,43744,0x13355cd7e727c09f37e744221ef118e589ccc0b1c26227e84d1ec5759d70e1a9,true,execute,"error: Failed constraint
-   ┌─ /Users/richard/Library/CloudStorage/GoogleDrive-richardwinputra@gmail.com/My Drive/Others/Research Paper/2026/Stablecoins Proof of Reserve/ICT Express/por-zk/circuit/src/main.nr:35:12
+   ┌─ circuit/src/main.nr:35:12
    │
 35 │     assert(eff_sum >= supply as u128);
    │            -------------------------
    │
    = Call stack:
-     1. /Users/richard/Library/CloudStorage/GoogleDrive-richardwinputra@gmail.com/My Drive/Others/Research Paper/2026/Stablecoins Proof of Reserve/ICT Express/por-zk/circui"
+     1. circui"
 9c,"USDC attested, Mar 31 2023",true,true,true,true,32572,32519,0xea09ddba25edb3ea67fd0e22ab50780f4d7c58ed5a8e8a1acaea2b99f512600,true,,
