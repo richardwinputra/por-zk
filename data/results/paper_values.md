@@ -2,23 +2,23 @@
 
 Source files: bench.csv, bench_baseline.csv, correctness.csv, case_study.csv, paired.csv, circuit_meta.json, circuit_meta_baseline.json, privacy_report.json, run_manifest.json
 
-## §5.1 Circuit complexity
+## §4.1 Circuit complexity
 The compiled circuit consists of 1667 ACIR opcodes and 180 Brillig helper opcodes, yielding 25576 UltraHonk gates. Compilation completes in 177 ms (median of 5 runs).
 
-## §5.2 Functional correctness summary
+## §4.2 Functional correctness summary
 All 22 of 22 scenarios produce the expected outcome: 8/8 solvency, 6/6 attestation integrity, 8/8 boundary and tamper.
 
-## §5.2 Paired governance-effect
+## §4.2 Paired governance-effect
 Scenario A: effective total 113 USDm, supply 100 USDm, observed Accept.
 Scenario B: effective total 80 USDm, supply 100 USDm, observed Reject.
 
-## §5.3 Performance summary
+## §4.3 Performance summary
 Across all 150 policy-bound runs the proof size is invariant at 14212 B. Median proof generation: 526.5 ms (IQR 39.2); median verification: 42.0 ms (IQR 3.0); median end-to-end (witness + execute + prove + verify): 718.5 ms. For comparison, mean proof generation 535.0 ms and mean verification 43.3 ms.
 
-## §5.4 Measured overhead
-Gate count overhead: +22400 gates (8.05×). Proof generation overhead (median): 116.0 → 526.5 ms (+410.5, 4.54×). Proof size overhead: +96 B (1.007×); equals exactly three additional 32-byte field elements (h_p, auditor_pk_x, auditor_pk_y). Verification overhead (median): 40.0 → 42.0 ms (+2.0, 1.05×). Means for the same metrics: prove +407.2 ms (4.19×), verify +2.3 ms (1.06×). Both circuits experience occasional extrinsic OS-scheduling outliers that the median+IQR reporting neutralizes; the baseline mean is more affected because its typical prove time (~115 ms) is smaller. Specific outliers retained in the dataset: `bench_baseline.csv` cfg 2 run 5 (prove 680 ms vs typical ~115) and cfg 3 run 23 (prove 295 ms); `bench.csv` cfg 3 run 21 (prove 751 ms vs typical ~525), cfg 3 run 4 (prove 691 ms), cfg 5 run 18 (prove 664 ms), and cfg 5 run 12 (verify 100 ms vs typical ~42).
+## §4.3 Measured overhead
+Gate count overhead: +22400 gates (8.05×). Proof generation overhead (median): 116.0 → 526.5 ms (+410.5, 4.54×). Proof size overhead: +96 B (1.007×); equals exactly three additional 32-byte field elements (h_p, auditor_pk_x, auditor_pk_y). Verification overhead (median): 40.0 → 42.0 ms (+2.0, 1.05×). Means for the same metrics: prove +407.2 ms (4.19×), verify +2.3 ms (1.06×); the baseline mean is inflated by two warm-run extrinsic interruptions (bench_baseline.csv cfg 2 run 5: prove 680 ms; cfg 3 run 23: prove 295 ms), retained in the dataset.
 
-## §5.5 Case study summary
+## §4.4 Case study summary
   - 9a: effective=43800 USDm, supply=43744 USDm, observed=Accept
   - 9b: effective=37670 USDm, supply=43744 USDm, observed=Reject
   - 9c: effective=32572 USDm, supply=32519 USDm, observed=Accept
@@ -28,7 +28,7 @@ Public inputs visible to the verifier: supply, h_p, auditor_pk_x, auditor_pk_y. 
 
 ---
 
-## Table 2
+## Table 3 (functional correctness)
 
 | # | Scenario | Expected | Observed | Result |
 |---|---|---|---|---|
@@ -55,7 +55,7 @@ Public inputs visible to the verifier: supply, h_p, auditor_pk_x, auditor_pk_y. 
 | T7 | Constructed underflow at u64 boundary | Reject | Reject | Pass |
 | T8 | Stale snapshot replayed under new h_P | Reject | Reject | Pass |
 
-## Table 3
+## Per-config performance breakdown (supplementary)
 
 | Accounts | Proof gen. (ms, median [IQR]) | Verification (ms, median [IQR]) | Execution (ms, median [IQR]) | Witness (ms, median [IQR]) | Proof size (B) |
 |---|---|---|---|---|---|
@@ -65,9 +65,9 @@ Public inputs visible to the verifier: supply, h_p, auditor_pk_x, auditor_pk_y. 
 | 4 | 522 [22.8] | 42 [2] | 142 [8] | 6 [1] | 14212 |
 | 5 | 529.5 [35.2] | 42 [3] | 143 [8.8] | 6 [0] | 14212 |
 
-Reported as median [interquartile range] across 30 repetitions per configuration; mean and standard deviation are in `bench_summary.csv` for completeness. Median is reported because both circuits experienced extrinsic OS-scheduling outliers that inflate the means: `bench_baseline.csv` cfg 2 run 5 (prove 680 ms) and cfg 3 run 23 (prove 295 ms) inflate the baseline mean; `bench.csv` cfg 3 run 21 (prove 751 ms), cfg 3 run 4 (prove 691 ms), cfg 5 run 18 (prove 664 ms), and cfg 5 run 12 (verify 100 ms) inflate the policy-bound mean. Medians are unaffected. The outlier rows are retained in the dataset.
+Reported as median [interquartile range] across 30 repetitions per configuration; mean and standard deviation are in `bench_summary.csv` for completeness. Median is reported in the table because two warm runs in `bench_baseline.csv` (cfg 2 run 5; cfg 3 run 23) experienced extrinsic OS-scheduling interruption (`prove_ms` 680 and 295, vs typical ~115); medians are unaffected, the means are inflated by ~7 ms. The outlier rows are retained in the dataset.
 
-## Table 4
+## Table 4 (overhead)
 
 | Metric | Solvency-only baseline | Policy-bound circuit | Overhead (absolute) | Overhead (×) |
 |---|---|---|---|---|
@@ -76,9 +76,9 @@ Reported as median [interquartile range] across 30 repetitions per configuration
 | Proof size (B) | 14116 | 14212 | +96 | 1.007× |
 | Verification (ms, median) | 40.0 | 42.0 | +2.0 | 1.05× |
 
-Median across 150 repetitions per circuit (5 configurations × 30 repetitions, randomized order). For comparison, the same metrics computed from means: prove 127.8 → 535.0 ms (+407.2, 4.19×), verify 40.9 → 43.3 ms (+2.3, 1.06×). Means for the baseline are inflated by two warm-run extrinsic interruptions (`bench_baseline.csv` cfg 2 run 5: prove 680 ms; cfg 3 run 23: prove 295 ms). The proof-size overhead of 96 B equals exactly three additional 32-byte field elements: the policy-bound circuit exposes three Field-typed public inputs ({h_p, auditor_pk_x, auditor_pk_y}) absent from the baseline.
+Median across 150 repetitions per circuit (5 configurations × 30 repetitions, randomized order). For comparison, the same metrics computed from means: prove 127.8 → 535.0 ms (+407.2, 4.19×), verify 40.9 → 43.3 ms (+2.3, 1.06×). Both circuits experience occasional extrinsic OS-scheduling outliers that inflate the means; the baseline is more affected proportionally because its typical prove time (~115 ms) is smaller. Outliers retained in the dataset: `bench_baseline.csv` cfg 2 run 5 (prove 680 ms) and cfg 3 run 23 (prove 295 ms); `bench.csv` cfg 3 run 21 (prove 751 ms), cfg 3 run 4 (prove 691 ms), cfg 5 run 18 (prove 664 ms), and cfg 5 run 12 (verify 100 ms). The proof-size overhead of 96 B equals exactly three additional 32-byte field elements: the policy-bound circuit exposes three Field-typed public inputs ({h_p, auditor_pk_x, auditor_pk_y}) absent from the baseline.
 
-## Table 5
+## Table 5 (USDC case study)
 
 | # | Scenario | Effective (USDm) | Supply (USDm) | Expected | Observed | Result |
 |---|---|---|---|---|---|---|

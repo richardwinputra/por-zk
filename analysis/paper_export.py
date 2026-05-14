@@ -59,17 +59,17 @@ def main() -> None:
     sentences.append("")
     sentences.append(f"Source files: bench.csv, bench_baseline.csv, correctness.csv, case_study.csv, paired.csv, circuit_meta.json, circuit_meta_baseline.json, privacy_report.json, run_manifest.json")
     sentences.append("")
-    sentences.append("## §5.1 Circuit complexity")
+    sentences.append("## §4.1 Circuit complexity")
     sentences.append(f"The compiled circuit consists of {meta_pb['acir_opcodes']} ACIR opcodes and {meta_pb['brillig_opcodes']} Brillig helper opcodes, yielding {meta_pb['ultra_honk_gates']} UltraHonk gates. Compilation completes in {meta_pb['compile_time_ms_median']} ms (median of {len(meta_pb['compile_time_ms_runs'])} runs).")
     sentences.append("")
-    sentences.append("## §5.2 Functional correctness summary")
+    sentences.append("## §4.2 Functional correctness summary")
     sentences.append(f"All {n_pass} of {n_total} scenarios produce the expected outcome: {n_solv}/8 solvency, {n_attest}/6 attestation integrity, {n_tamper}/8 boundary and tamper.")
     sentences.append("")
-    sentences.append("## §5.2 Paired governance-effect")
+    sentences.append("## §4.2 Paired governance-effect")
     sentences.append(f"Scenario A: effective total {int(paired_a['effective_total']) // 100_000_000} USDm, supply 100 USDm, observed Accept.")
     sentences.append(f"Scenario B: effective total {int(paired_b['effective_total']) // 100_000_000} USDm, supply 100 USDm, observed Reject.")
     sentences.append("")
-    sentences.append("## §5.3 Performance summary")
+    sentences.append("## §4.3 Performance summary")
     sentences.append(
         f"Across all 150 policy-bound runs the proof size is invariant at {proof_size} B. "
         f"Median proof generation: {prove_med:.1f} ms (IQR {prove_iqr:.1f}); "
@@ -78,7 +78,7 @@ def main() -> None:
         f"For comparison, mean proof generation {prove_mean:.1f} ms and mean verification {verify_mean:.1f} ms."
     )
     sentences.append("")
-    sentences.append("## §5.4 Measured overhead")
+    sentences.append("## §4.3 Measured overhead")
     gates_overhead = meta_pb["ultra_honk_gates"] - meta_bs["ultra_honk_gates"]
     sentences.append(
         f"Gate count overhead: +{gates_overhead} gates ({meta_pb['ultra_honk_gates']/meta_bs['ultra_honk_gates']:.2f}×). "
@@ -89,7 +89,7 @@ def main() -> None:
         f"the baseline mean is inflated by two warm-run extrinsic interruptions (bench_baseline.csv cfg 2 run 5: prove 680 ms; cfg 3 run 23: prove 295 ms), retained in the dataset."
     )
     sentences.append("")
-    sentences.append("## §5.5 Case study summary")
+    sentences.append("## §4.4 Case study summary")
     for line in cs_lines:
         sentences.append(line)
     sentences.append("")
@@ -98,19 +98,19 @@ def main() -> None:
     sentences.append("")
     sentences.append("---")
     sentences.append("")
-    sentences.append("## Table 2")
+    sentences.append("## Table 3 (functional correctness)")
     sentences.append("")
     sentences.append(table2)
     sentences.append("")
-    sentences.append("## Table 3")
+    sentences.append("## Per-config performance breakdown (supplementary)")
     sentences.append("")
     sentences.append(table3)
     sentences.append("")
-    sentences.append("## Table 4")
+    sentences.append("## Table 4 (overhead)")
     sentences.append("")
     sentences.append(table4)
     sentences.append("")
-    sentences.append("## Table 6")
+    sentences.append("## Table 5 (USDC case study)")
     sentences.append("")
     sentences.append(table6)
     sentences.append("")
