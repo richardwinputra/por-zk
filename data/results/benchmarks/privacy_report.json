@@ -1,0 +1,15 @@
+{
+  "proof_size_bytes_unique": [
+    15844
+  ],
+  "proof_size_invariant": true,
+  "public_inputs": [
+    "supply",
+    "h_p",
+    "auditor_pk_x",
+    "auditor_pk_y"
+  ],
+  "structural_parameter": "N = 10",
+  "note": "Size invariance is a structural observation, not evidence of zero knowledge. ZK is enabled by the pinned proving configuration.",
+  "seed": 4242
+}

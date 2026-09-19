@@ -1,0 +1,165 @@
+scenario,name,expectAccept,executed,proved,verified,effective_total,supply,policy_version,proof_bytes,pass,expected_failure,failure_stage,failure_reason,error_message
+1,"All eligible, surplus",true,true,true,true,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+2,"All eligible, exactly solvent",true,true,true,true,10000000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+3,"All eligible, insolvent",false,false,false,false,7500000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,solvency,execute,solvency,"error: Failed constraint
+   ┌─ circuit/src/main.nr:35:12
+   │
+35 │     assert(eff_sum >= supply as u128);
+   │            -------------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:35:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+4,3 real accounts,true,true,true,true,10500000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+5,"3 eligible, sufficient",true,true,true,true,8000000000,8000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+6,"2 eligible, insufficient",false,false,false,false,5500000000,9000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,solvency,execute,solvency,"error: Failed constraint
+   ┌─ circuit/src/main.nr:35:12
+   │
+35 │     assert(eff_sum >= supply as u128);
+   │            -------------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:35:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+7,All real accounts ineligible,false,false,false,false,0,5000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,solvency,execute,solvency,"error: Failed constraint
+   ┌─ circuit/src/main.nr:35:12
+   │
+35 │     assert(eff_sum >= supply as u128);
+   │            -------------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:35:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+8,1 real account,true,true,true,true,12000000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+S1,"Valid signature, valid witness",true,true,true,true,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+S2,Invalid signature (random bytes),false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,signature,execute,signature,"error: Failed constraint
+   ┌─ circuit/src/main.nr:68:12
+   │
+68 │     assert(ok);
+   │            --
+   │
+   = Call stack:
+     1. circuit/src/main.nr:68:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+S3,Balance tampered after signing,false,false,false,false,12300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,signature,execute,signature,"error: Failed constraint
+   ┌─ circuit/src/main.nr:68:12
+   │
+68 │     assert(ok);
+   │            --
+   │
+   = Call stack:
+     1. circuit/src/main.nr:68:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+S4,Wrong auditor public key,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,signature,execute,signature,"error: Failed constraint
+   ┌─ circuit/src/main.nr:68:12
+   │
+68 │     assert(ok);
+   │            --
+   │
+   = Call stack:
+     1. circuit/src/main.nr:68:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+S5,Snapshot ID changed after signing,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+S6,Eligibility flipped after signing,false,false,false,false,8800000000,6000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T1,Supply changed after signing,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T2,Policy salt changed after signing,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T3,Policy version changed after signing,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f4,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T4,Hold + float > balance at slot 1,false,false,false,false,8300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,underflow,execute,underflow,"error: Failed constraint
+   ┌─ circuit/src/main.nr:30:16
+   │
+30 │         assert(tmp >= f);
+   │                --------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:30:16
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T5,Non-zero balance in padded ineligible slot,true,true,true,true,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,
+T6,"Eligibility value outside {0,1}",false,false,false,false,29300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,boolean,execute,boolean,"The value passed for parameter `eligibility[0]` does not match the specified type:
+Value Field(7) does not fall within range of allowable values for a Integer { sign: Unsigned, width: 1 }
+"
+T7,Constructed underflow at u64 boundary,false,false,false,false,8300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,underflow,execute,underflow,"error: Failed constraint
+   ┌─ circuit/src/main.nr:30:16
+   │
+30 │         assert(tmp >= f);
+   │                --------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:30:16
+
+Failed to solve program: 'Cannot satisfy constraint'
+"
+T8,Stale snapshot replayed under new h_P,false,false,false,false,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,policy_hash,execute,policy_hash,"error: Failed constraint
+   ┌─ circuit/src/main.nr:54:12
+   │
+54 │     assert(h_p_computed == h_p);
+   │            -------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:54:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+"

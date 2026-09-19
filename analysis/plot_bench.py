@@ -9,8 +9,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RESULTS = ROOT / "data" / "results"
+from results import ROOT, RESULTS
 
 
 def main() -> None:
@@ -23,12 +22,12 @@ def main() -> None:
     err_high = (q3 - medians).values
     configs = medians.index.tolist()
 
-    fig, ax = plt.subplots(figsize=(5.0, 3.4))
+    fig, ax = plt.subplots(figsize=(6.2, 4.0))
     bars = ax.bar(configs, medians.values, yerr=[err_low, err_high], capsize=4,
                   color="#4477aa", edgecolor="black", linewidth=0.6)
-    ax.set_xlabel("Real-account count")
+    ax.set_xlabel("Active reserve accounts (fixed capacity N = 10)")
     ax.set_ylabel("Proof generation (ms)")
-    ax.set_title("Proof generation time (median with IQR, n = 30)")
+    ax.set_title("ZK proof generation: median and interquartile range")
     ax.set_xticks(configs)
     ax.grid(axis="y", linestyle=":", alpha=0.6)
     top = (medians + (q3 - medians)).max()
@@ -36,11 +35,12 @@ def main() -> None:
     pad = top * 0.02
     for b, m, eh in zip(bars, medians.values, err_high):
         ax.text(b.get_x() + b.get_width() / 2, b.get_height() + eh + pad,
-                f"{m:.0f}", ha="center", va="bottom", fontsize=8)
-    plt.tight_layout()
-    plt.savefig(RESULTS / "figure1.pdf", dpi=300)
-    plt.savefig(RESULTS / "figure1.png", dpi=300)
-    print("Wrote figure1.pdf, figure1.png")
+                f"{m:.1f}", ha="center", va="bottom", fontsize=8)
+    fig.text(0.5, 0.015, "30 runs per configuration · UltraHonk Keccak ZK · all runs retained", ha="center", fontsize=8)
+    plt.tight_layout(rect=(0, 0.04, 1, 1))
+    plt.savefig(RESULTS / "figure2.pdf", dpi=300)
+    plt.savefig(RESULTS / "figure2.png", dpi=300)
+    print("Wrote figure2.pdf, figure2.png")
 
 
 if __name__ == "__main__":

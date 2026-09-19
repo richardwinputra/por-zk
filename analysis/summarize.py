@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Build Markdown tables 2, 3, 5 from the result CSVs."""
+"""Export the manuscript tables and per-configuration benchmark statistics."""
 from __future__ import annotations
 
 import json
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RESULTS = ROOT / "data" / "results"
+from results import ROOT, RESULTS
 
 
 def fmt_num(x: float, digits: int = 1) -> str:
@@ -20,13 +19,17 @@ def fmt_num(x: float, digits: int = 1) -> str:
 
 def write_table2() -> None:
     df = pd.read_csv(RESULTS / "correctness.csv")
-    rows = ["| # | Scenario | Expected | Observed | Result |", "|---|---|---|---|---|"]
-    for _, r in df.iterrows():
-        expected = "Accept" if r["expectAccept"] else "Reject"
-        observed = "Accept" if (r["executed"] and r["proved"] and r["verified"]) else "Reject"
-        result = "Pass" if r["pass"] else "FAIL"
-        rows.append(f"| {r['scenario']} | {r['name']} | {expected} | {observed} | {result} |")
+    rows = ["| Scenario group | Tests | Result |", "|---|---:|---|"]
+    groups = [("Solvency (count, eligibility, condition)", [str(i) for i in range(1, 9)]),
+              ("Attestation integrity (S1-S6)", [f"S{i}" for i in range(1, 7)]),
+              ("Boundary and tamper (T1-T8)", [f"T{i}" for i in range(1, 9)])]
+    for label, ids in groups:
+        group = df[df["scenario"].astype(str).isin(ids)]
+        passed = int(group["pass"].sum())
+        rows.append(f"| {label} | {len(group)} | {passed}/{len(group)} Pass |")
+    rows.append(f"| Total | {len(df)} | {int(df['pass'].sum())}/{len(df)} Pass |")
     (RESULTS / "table2.md").write_text("\n".join(rows) + "\n")
+
 
 
 def summarize_bench(df: pd.DataFrame) -> pd.DataFrame:
@@ -54,7 +57,7 @@ def summarize_bench(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def write_table3() -> None:
+def write_performance() -> None:
     df = pd.read_csv(RESULTS / "bench.csv")
     s = summarize_bench(df)
     rows = [
@@ -72,29 +75,35 @@ def write_table3() -> None:
         )
     rows.append("")
     rows.append(
-        "Reported as median [interquartile range] across 30 repetitions per configuration; mean and standard deviation are in `bench_summary.csv` for completeness. Median is reported in the table because two warm runs in `bench_baseline.csv` (cfg 2 run 5; cfg 3 run 23) experienced extrinsic OS-scheduling interruption (`prove_ms` 680 and 295, vs typical ~115); medians are unaffected, the means are inflated by ~7 ms. The outlier rows are retained in the dataset."
+        "Median [interquartile range] over 30 runs per configuration after three complete warmups; "
+        "IQR uses the 25th and 75th percentiles with linear interpolation. "
+        "All successful measurements are retained; no outlier trimming. "
+        "Times include subprocess startup and backend initialization. "
+        "Capacity is fixed at N=10. Means and sample standard deviations are provided in the CSV summaries."
     )
-    (RESULTS / "table3.md").write_text("\n".join(rows) + "\n")
+    (RESULTS / "performance_by_config.md").write_text("\n".join(rows) + "\n")
     s.to_csv(RESULTS / "bench_summary.csv", index=False)
+    summarize_bench(pd.read_csv(RESULTS / "bench_baseline.csv")).to_csv(RESULTS / "bench_baseline_summary.csv", index=False)
 
 
-def write_table6() -> None:
+def write_table4() -> None:
     df = pd.read_csv(RESULTS / "case_study.csv")
-    rows = ["| # | Scenario | Effective (USDm) | Supply (USDm) | Expected | Observed | Result |",
-            "|---|---|---|---|---|---|---|"]
+    rows = ["| # | Scenario | Eligible (USDm) | Supply (USDm) | Margin (USDm) | Expected | Observed | Result |",
+            "|---|---|---|---|---|---|---|---|"]
     for _, r in df.iterrows():
         expected = "Accept" if r["expected"] else "Reject"
         observed = "Accept" if (r["executed"] and r["proved"] and r["verified"]) else "Reject"
         result = "Pass" if r["pass"] else "FAIL"
-        rows.append(f"| {r['scenario']} | {r['name']} | {int(r['effective_total_usdm'])} | {int(r['supply_usdm'])} | {expected} | {observed} | {result} |")
-    (RESULTS / "table6.md").write_text("\n".join(rows) + "\n")
+        rows.append(f"| {r['scenario']} | {r['name']} | {int(r['effective_total_usdm'])} | {int(r['supply_usdm'])} | {int(r['effective_total_usdm'] - r['supply_usdm']):+d} | {expected} | {observed} | {result} |")
+    rows.extend(["", "Illustrative per-bank allocations, not observed historical bank balances. The March 12 rejection is conditional on the constructed policy scenario."])
+    (RESULTS / "table4.md").write_text("\n".join(rows) + "\n")
 
 
 def main() -> None:
     write_table2()
-    write_table3()
-    write_table6()
-    print("Wrote table2.md, table3.md, table6.md, bench_summary.csv")
+    write_performance()
+    write_table4()
+    print("Wrote table2.md, table4.md, performance_by_config.md, benchmark summaries")
 
 
 if __name__ == "__main__":

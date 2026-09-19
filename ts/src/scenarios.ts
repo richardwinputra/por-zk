@@ -56,7 +56,8 @@ export function attestationScenarios(): Scenario[] {
     mk('S3', 'Balance tampered after signing',   false, { kind: 'balance', index: 0, delta: 10n * USDM_TO_CENTS }),
     mk('S4', 'Wrong auditor public key',         false, { kind: 'auditor_key' }),
     mk('S5', 'Snapshot ID changed after signing',false, { kind: 'snapshot_id', delta: 1n }),
-    // S6: real eligibility 1,1,0,0,1; flip account index 3 (4th account) from 0->1
-    mk('S6', 'Eligibility flipped after signing',false, { kind: 'eligibility', index: 3 }, [1,1,0,0,1]),
+    // S6: 70 USDm before / 88 USDm after tampering both cover the 60 USDm supply.
+    // Real eligibility 1,1,0,0,1; flip account index 3 (4th account) from 0->1
+    { ...mk('S6', 'Eligibility flipped after signing', false, { kind: 'eligibility', index: 3 }, [1,1,0,0,1]), supplyCents: 60n * USDM_TO_CENTS },
   ];
 }

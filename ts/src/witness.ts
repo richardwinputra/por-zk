@@ -26,13 +26,11 @@ export interface BuiltWitness {
 }
 
 export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<BuiltWitness> {
-  // 1) Pad slot arrays to 10
   let balances = padArray<bigint>(s.balancesCents, N, 0n);
   let holds = padArray<bigint>(s.holdsCents ?? [], N, 0n);
   let floats = padArray<bigint>(s.floatsCents ?? [], N, 0n);
   let eligibility = padArray<number>(s.eligibility, N, 0);
 
-  // Apply padded slot overrides (e.g. T5)
   if (s.paddedOverride) {
     for (const o of s.paddedOverride) {
       balances[o.idx] = o.balanceCents;
@@ -40,7 +38,6 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
     }
   }
 
-  // 2) Compute policy_version from JSON
   const policyVersion = await encodePolicyJson(s.policyJsonPath);
   let policySalt = s.policySalt;
   let supply = s.supplyCents;
@@ -59,14 +56,12 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
     floats[idx] = 1n << 63n;
   }
 
-  // 3) Compute h_W
   const witnessFields: bigint[] = [];
   for (let i = 0; i < N; i++) {
     witnessFields.push(balances[i], holds[i], floats[i]);
   }
   const hW = await pedersenHash(witnessFields);
 
-  // 4) Compute h_P over current eligibility
   const policyFields: bigint[] = [
     policyVersion,
     snapshotId,
@@ -76,13 +71,11 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
   ];
   const hP = await pedersenHash(policyFields);
 
-  // 5) Compute m = pedersen([DOMAIN, CIRCUIT_ID, snapshot_id, supply, h_P, h_W])
   const m = await pedersenHash([DOMAIN, CIRCUIT_ID, snapshotId, supply, hP, hW]);
 
-  // 6) Sign m with auditor sk
   let signature = await signMessage(auditor.sk, m);
 
-  // 7) Apply post-sign tampers
+  // Tamper after signing so the tests exercise signature and digest binding.
   let pkX = auditor.pkX;
   let pkY = auditor.pkY;
   let publicHP = hP;
@@ -101,7 +94,7 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
       }
       case 'balance': {
         const idx = s.tamper.index ?? 0;
-        const delta = s.tamper.delta ?? 10n * 1_000_000n * 100_000_000n; // 10 USDm in cents
+        const delta = s.tamper.delta ?? 10n * 1_000_000n * 100_000_000n;
         balances[idx] = balances[idx] + delta;
         break;
       }
@@ -131,7 +124,7 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
         break;
       }
       case 'policy_version': {
-        // bump policy_version private input but keep public h_P unchanged
+        // Applied below when constructing the private witness.
         break;
       }
       case 'stale_snapshot': {
@@ -139,8 +132,7 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
           throw new Error('stale_snapshot tamper requires altPolicyJsonPath');
         }
         const altPv = await encodePolicyJson(s.tamper.altPolicyJsonPath);
-        // public h_P now corresponds to a different policy_version, but the witness
-        // still carries the original policy_version → h_P_computed != h_P
+        // Keep the original private policy version to force a digest mismatch.
         publicHP = await pedersenHash([
           altPv,
           snapshotId,
@@ -151,19 +143,9 @@ export async function buildWitness(s: Scenario, auditor: AuditorKey): Promise<Bu
         break;
       }
     }
-    if (s.tamper.kind === 'policy_version') {
-      // Need to adjust the policy_version private field after sign; we keep public h_P from the
-      // pre-tamper computation, so the in-circuit recomputation will diverge.
-      // To do this we have to *change the value we put into Prover.toml* but not what we used for h_P/h_W/m.
-      // The simplest way is to encode this by stashing a "tampered" policy version in the BuiltWitness.
-      // Here we override policyVersion:
-      // (use a deterministic alt value)
-      // Note: we leave publicHP alone so the public input still holds the original h_P.
-      // policyVersion override happens below
-    }
   }
 
-  // For policy_version tamper: override the private policy_version that goes into Prover.toml
+  // Change the private policy version while retaining the signed public digest.
   let outPolicyVersion = policyVersion;
   if (s.tamper?.kind === 'policy_version') {
     outPolicyVersion = (policyVersion + 1n);

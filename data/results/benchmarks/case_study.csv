@@ -1,0 +1,14 @@
+scenario,name,expectAccept,executed,proved,verified,effective_total,supply,policy_version,proof_bytes,pass,expected_failure,failure_stage,failure_reason,error_message,expected,effective_total_usdm,supply_usdm
+9a,"USDC attested, Mar 6 2023",true,true,true,true,4380000000000,4374400000000,0x1e0597a5a917998ef17fc2fa7073a85a4a972acf8a516c5215cd2346cbd6abb0,15844,true,,,,,true,43800,43744
+9b,"USDC crisis window, Mar 12 2023",false,false,false,false,3767000000000,4374400000000,0x13355cd7e727c09f37e744221ef118e589ccc0b1c26227e84d1ec5759d70e1a9,0,true,solvency,execute,solvency,"error: Failed constraint
+   ┌─ circuit/src/main.nr:35:12
+   │
+35 │     assert(eff_sum >= supply as u128);
+   │            -------------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:35:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+",false,37670,43744
+9c,"USDC attested, Mar 31 2023",true,true,true,true,3257200000000,3251900000000,0xea09ddba25edb3ea67fd0e22ab50780f4d7c58ed5a8e8a1acaea2b99f512600,15844,true,,,,,true,32572,32519

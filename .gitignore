@@ -25,3 +25,11 @@ data/scenarios/
 .idea/
 .vscode/
 *.swp
+
+# Generated witnesses; retain the committed example Prover.toml files
+circuit/RunProver.toml
+circuit_baseline/RunProver.toml
+
+# Local archives and separately collected experiments
+OLD/
+data/runs/

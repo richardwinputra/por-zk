@@ -1,0 +1,11 @@
+{
+  "source": "data/results/validation",
+  "note": "Scenario validation was collected separately from the timed experiment. Diagnostic checkout paths are normalized to repository-relative paths. Numeric values and observed outcomes are unchanged.",
+  "sha256": {
+    "correctness.csv": "f62f5ce52deed7006a4e25b82c568631b2904a1109fcd1d911fddde3dc47ba54",
+    "paired.csv": "a10562420edff29ca791c3245e775280901dcb528cdd51e42f68ca54423523c5",
+    "case_study.csv": "9a8ac92e9eef2d84aef26e638d2c8d4d9d752d739653da4ffaf78a70fdb96664",
+    "verification.csv": "55d4a5479f5dc86fc5e22675a80f193c3eb971711a06775e99f60c231e41cf82",
+    "smoke.json": "9836dbebd1c810a1224dbdc7ca0a0af721d7108fa37abc165d578cbab02cbcdd"
+  }
+}

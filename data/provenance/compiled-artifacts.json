@@ -1,0 +1,15 @@
+{
+  "normalization": "Remove only file_map entry path values; retain bytecode, ABI, source text and all other fields.",
+  "artifacts": [
+    {
+      "circuit": "circuit",
+      "without_debug_paths_sha256": "9f2bf5d4f696c938f56dcc8c29839804d0f2f47b2f339a47ad38121a5529b538",
+      "measured_sha256": "011626e7f7d5283e143607355ffc6440c0dca691a80d060f6ed28c59433a957f"
+    },
+    {
+      "circuit": "circuit_baseline",
+      "without_debug_paths_sha256": "4e2a5ffc14d85cc73ec51548fb4f6f8bc92467f56d6e5618d0e3227490f5df4a",
+      "measured_sha256": "75129d2b3ce7dee0f53e7e40449dee82ca93bc3e55c99e846e269ef1d24ec523"
+    }
+  ]
+}

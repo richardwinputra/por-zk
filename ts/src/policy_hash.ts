@@ -1,3 +1,4 @@
+import { repoPath } from './paths.js';
 import { promises as fs } from 'node:fs';
 import { pedersenHash } from './pedersen.js';
 
@@ -39,7 +40,7 @@ export function chunkBytesToFields(bytes: Uint8Array, chunkSize = 31): bigint[] 
 }
 
 export async function encodePolicyJson(path: string): Promise<bigint> {
-  const raw = await fs.readFile(path, 'utf8');
+  const raw = await fs.readFile(repoPath(path), 'utf8');
   const parsed = JSON.parse(raw);
   const canonical = jcsCanonicalize(parsed);
   const bytes = new TextEncoder().encode(canonical);

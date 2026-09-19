@@ -1,11 +1,12 @@
+import { ROOT, RESULTS_DIR, resultPath, repoPath } from './paths.js';
 import { promises as fs, readFileSync } from 'node:fs';
 import * as os from 'node:os';
-import * as nodePath from 'node:path';
+import { createHash } from 'node:crypto';
 import { execSync } from 'node:child_process';
 
 function safeExec(cmd: string): string {
   try {
-    return execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString().trim();
+    return execSync(cmd, { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] }).toString().trim();
   } catch {
     return '';
   }
@@ -13,19 +14,40 @@ function safeExec(cmd: string): string {
 
 function readPackageVersion(name: string): string {
   try {
-    const p = nodePath.join('ts', 'node_modules', name, 'package.json');
+    const p = repoPath('ts', 'node_modules', name, 'package.json');
     return JSON.parse(readFileSync(p, 'utf8')).version;
   } catch (e) {
     return '';
   }
 }
 
+async function sourceHashes(): Promise<Record<string, string>> {
+  const hashes: Record<string, string> = {};
+  const walk = async (rel: string) => {
+    for (const item of await fs.readdir(repoPath(rel), { withFileTypes: true })) {
+      const child = `${rel}/${item.name}`;
+      if (item.name === '__pycache__') continue;
+      if (item.isDirectory()) await walk(child);
+      else hashes[child] = createHash('sha256').update(await fs.readFile(repoPath(child))).digest('hex');
+    }
+  };
+  await walk('ts/src');
+  await walk('analysis');
+  for (const rel of ['ts/package.json', 'ts/pnpm-lock.yaml', 'circuit/src/main.nr', 'circuit_baseline/src/main.nr']) {
+    hashes[rel] = createHash('sha256').update(await fs.readFile(repoPath(rel))).digest('hex');
+  }
+  return hashes;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const seedArg = args.find(a => a.startsWith('--seed='));
-  const seed = seedArg ? Number(seedArg.split('=')[1]) : Math.floor(Math.random() * 1e9);
+  const seed = seedArg ? Number(seedArg.split('=')[1]) : 4242;
 
   const manifest = {
+    scope: 'Environment/configuration record; file presence alone does not attest completion of any benchmark',
+    source_sha256: await sourceHashes(),
+    proof_configuration: { scheme: 'ultra_honk', oracle_hash: 'keccak', zk: true, flags: ['-s', 'ultra_honk', '--oracle_hash', 'keccak', '--zk'] },
     nargo_version: (safeExec('nargo --version').match(/\d+\.\d+\.\d+\S*/) ?? [''])[0],
     bb_version: safeExec('bb --version'),
     bbjs_version: readPackageVersion('@aztec/bb.js'),
@@ -41,8 +63,8 @@ async function main() {
     utc_timestamp: new Date().toISOString(),
     bench_seed: seed,
   };
-  await fs.mkdir('data/results', { recursive: true });
-  await fs.writeFile('data/results/run_manifest.json', JSON.stringify(manifest, null, 2));
+  await fs.mkdir(RESULTS_DIR, { recursive: true });
+  await fs.writeFile(resultPath('run_manifest.json'), JSON.stringify(manifest, null, 2));
   console.log('manifest written:', manifest);
 }
 

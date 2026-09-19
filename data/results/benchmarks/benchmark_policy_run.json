@@ -1,0 +1,27 @@
+{
+  "started_utc": "2026-09-18T08:22:39.389Z",
+  "completed_utc": "2026-09-18T08:24:23.588Z",
+  "seed": 4242,
+  "proof_flags": [
+    "-s",
+    "ultra_honk",
+    "--oracle_hash",
+    "keccak",
+    "--zk"
+  ],
+  "warmup_runs": 3,
+  "measured_runs": 150,
+  "configs": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "repetitions_per_config": 30,
+  "capacity": 10,
+  "timing": "wall-clock subprocess duration; fractional milliseconds; includes process startup and native initialization",
+  "end_to_end": "sum of witness construction/file writing, execute, prove, verify; excludes cleanup and CSV/stat operations",
+  "scheduling": "randomized within each circuit; circuits measured sequentially; no concurrent analysis or tests during measurement",
+  "outlier_policy": "retain every successful measured run; no trimming; unexpected native failures abort the experiment"
+}

@@ -1,0 +1,23 @@
+{
+  "package": "circuit",
+  "proof_flags": [
+    "-s",
+    "ultra_honk",
+    "--oracle_hash",
+    "keccak",
+    "--zk"
+  ],
+  "acir_opcodes": 1667,
+  "ultra_honk_gates": 25576,
+  "gate_count_scope": "finalized arithmetic circuit; excludes proof-system ZK masking overhead",
+  "compile_time_ms_runs": [
+    262.390667,
+    156.935583,
+    176.577708,
+    161.097125,
+    159.605542
+  ],
+  "compile_time_ms_median": 161.097125,
+  "compile_method": "nargo compile --force, five runs, wall-clock subprocess duration",
+  "measured_utc": "2026-09-18T08:22:36.343Z"
+}

@@ -1,0 +1,32 @@
+{
+  "python": "3.9.6",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "packages": {
+    "pandas": "2.3.3",
+    "matplotlib": "3.9.4",
+    "numpy": "2.0.2"
+  },
+  "note": "Analysis regenerated from the recorded measurements during the final audit on 2026-09-19. Timed measurements were not recollected. The measurement environment is recorded in run_manifest.json.",
+  "analysis_source_sha256": {
+    "analysis/check_consistency.py": "e8636a12226389d8534161718fe00d7b6b06dc772ab77e3ecefe161a44232e8d",
+    "analysis/overhead_measured.py": "b97cf0c84cbe44c7dc58d8f24b37298e4d17135d8239bbf0bde7343e18f0bf53",
+    "analysis/paper_export.py": "e3f805e1a69b21fa2bd753490f31442fb43d843733a0561c556a25b23c1e8191",
+    "analysis/plot_bench.py": "7e1fce27a1e7b063dcd2d775be24c7c5c0571e2fa5153104f3c322c755807c6b",
+    "analysis/record_validation.py": "41a5350023d2f2acf66e0480149e6878940590150e26440c2776da6c95f089c6",
+    "analysis/results.py": "d29e7d4c3deb225d4bcb4e6df7b64f1f2ec5df51f1629dfaf115be800d7119b0",
+    "analysis/summarize.py": "d384146f70aa4138c1c7972af68637d12e8f1c6f0e43d8c5d01c49ee5d02ee76"
+  },
+  "generated_artifact_sha256": {
+    "bench_baseline_summary.csv": "211ebe56254b034be504753f1cfb26f7efbbaa4f3eb1b84f74671fc732a4aaf3",
+    "bench_summary.csv": "4167308e68cfb31e78f36b4646cc114a8de38e5fb360ab3740f2ba45a6894487",
+    "figure2.pdf": "804471a184a6f5475c6fa1200cf90aa8750f93804b924597d80d892f2238ffa2",
+    "figure2.png": "d7d5e58d359c36997e0000113d4a4251d020c7c1956d72a613e031ad182e1504",
+    "metrics.json": "869edb536e7e891cf20f848ec7f5c2454883852e5413c1af9e7b83f4c5a1b996",
+    "overhead_per_config.csv": "27cb98e0929d5a28b277a23747a88196dea19eaaff7e507c49a51e1ca8260f28",
+    "paper_values.md": "190ea00c25267118df31e159f8e2184a50fa78f363fda67f3b9edbed6327e6c6",
+    "table2.md": "3e022b46ee4bf014a59a692a0c7003a0cbaff16bb9591db0edfb84fdaa3bd800",
+    "table3.md": "662fcd5b5d4efad2d7f0f00cfce0db1fb46c782b8519812da3a0bcb827216cae",
+    "table4.md": "27cb157bafbb762e0f159db0d664ddbf8267cf6090116e7c1691452acf17fa2e",
+    "performance_by_config.md": "dfd07c4ada52eeda62e64b9419803d2d877fddff0bce1fb9cfaa859bd628fdd8"
+  }
+}

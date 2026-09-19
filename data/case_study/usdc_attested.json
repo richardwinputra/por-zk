@@ -48,5 +48,6 @@
     "attested": true,
     "date": "2023-03-31",
     "note": "USDC tokens in circulation as of report date; reduced by ~USD 11.23B in net redemptions during the depeg window."
-  }
+  },
+  "_note": "Aggregate-inspired fixture inputs in whole USD millions. Component rounding can differ from rounding the reported grand total. The paper uses these fixture values, not exact historical balances."
 }

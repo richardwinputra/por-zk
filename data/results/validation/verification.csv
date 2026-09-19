@@ -1,0 +1,16 @@
+scenario,expected,observed,pass
+approved-current-snapshot,accepted,accepted,true
+native-altered-supply,rejected,rejected,true
+native-altered-policy-digest,rejected,rejected,true
+native-altered-auditor-x,rejected,rejected,true
+native-altered-auditor-y,rejected,rejected,true
+unchanged-proof-still-cryptographically-valid,accepted,accepted,true
+old-proof-against-new-registry-record,snapshot_digest_mismatch,snapshot_digest_mismatch,true
+unexpected-supply,supply_mismatch,supply_mismatch,true
+unapproved-auditor,unapproved_auditor,unapproved_auditor,true
+expired-record,snapshot_not_current,snapshot_not_current,true
+future-record,snapshot_not_current,snapshot_not_current,true
+wrong-policy-document,policy_document_mismatch,policy_document_mismatch,true
+wrong-verification-key,unapproved_verification_key,unapproved_verification_key,true
+malformed-proof,malformed_proof,malformed_proof,true
+corrupted-transcript,invalid_proof,invalid_proof,true

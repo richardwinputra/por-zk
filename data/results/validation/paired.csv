@@ -1,0 +1,13 @@
+scenario,name,expectAccept,executed,proved,verified,effective_total,supply,policy_version,proof_bytes,pass,expected_failure,failure_stage,failure_reason,error_message,id,accepted,expected
+A,Paired A: all eligible,true,true,true,true,11300000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,15844,true,,,,,A,true,true
+B,Paired B: accounts 4-5 ineligible,false,false,false,false,8000000000,10000000000,0xe5e268ba4e32adb469cc7d1d6d6e326bb96780349f133a572a1c983e01eb8f3,0,true,solvency,execute,solvency,"error: Failed constraint
+   ┌─ circuit/src/main.nr:35:12
+   │
+35 │     assert(eff_sum >= supply as u128);
+   │            -------------------------
+   │
+   = Call stack:
+     1. circuit/src/main.nr:35:12
+
+Failed to solve program: 'Cannot satisfy constraint'
+",B,false,false

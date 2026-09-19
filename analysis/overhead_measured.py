@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Compute Table 4 by joining bench.csv (policy-bound) and bench_baseline.csv (solvency-only)."""
+"""Compute Table 3 by joining bench.csv (policy-bound) and bench_baseline.csv (solvency-only)."""
 from __future__ import annotations
 
 import json
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RESULTS = ROOT / "data" / "results"
+from results import ROOT, RESULTS
 
 
 def main() -> None:
@@ -31,7 +30,7 @@ def main() -> None:
     gates_pb = meta_pb["ultra_honk_gates"]
     gates_bs = meta_bs["ultra_honk_gates"]
 
-    # Secondary: means (sensitive to the two baseline outliers identified in summarize.py)
+    # Secondary: means, retaining all measured runs.
     prove_pb_mean = pb["prove_ms"].mean()
     prove_bs_mean = bs["prove_ms"].mean()
     verify_pb_mean = pb["verify_ms"].mean()
@@ -50,11 +49,11 @@ def main() -> None:
         f"Median across 150 repetitions per circuit (5 configurations × 30 repetitions, randomized order). "
         f"For comparison, the same metrics computed from means: prove {prove_bs_mean:.1f} → {prove_pb_mean:.1f} ms ({prove_pb_mean - prove_bs_mean:+.1f}, {prove_pb_mean / prove_bs_mean:.2f}×), "
         f"verify {verify_bs_mean:.1f} → {verify_pb_mean:.1f} ms ({verify_pb_mean - verify_bs_mean:+.1f}, {verify_pb_mean / verify_bs_mean:.2f}×). "
-        f"Means for the baseline are inflated by two warm-run extrinsic interruptions (`bench_baseline.csv` cfg 2 run 5: prove 680 ms; cfg 3 run 23: prove 295 ms). "
+        "All measurements are retained. The circuits were measured sequentially on one machine, so between-session load/thermal differences may affect the comparison. "
         f"The proof-size overhead of {size_pb - size_bs} B equals exactly three additional 32-byte field elements: the policy-bound circuit exposes three Field-typed public inputs ({{h_p, auditor_pk_x, auditor_pk_y}}) absent from the baseline."
     )
 
-    (RESULTS / "table4.md").write_text("\n".join(rows) + "\n")
+    (RESULTS / "table3.md").write_text("\n".join(rows) + "\n")
 
     # Per-config detail for the appendix: report both medians and means
     detail = pd.concat([
@@ -69,7 +68,7 @@ def main() -> None:
     detail["verify_overhead_ms_mean"] = detail["policy_mean_verify_ms"] - detail["baseline_mean_verify_ms"]
     detail.to_csv(RESULTS / "overhead_per_config.csv", index=False)
 
-    print("Wrote table4.md, overhead_per_config.csv")
+    print("Wrote table3.md, overhead_per_config.csv")
 
 
 if __name__ == "__main__":

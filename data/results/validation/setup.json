@@ -1,0 +1,25 @@
+{
+  "versions": {
+    "nargo": "nargo version = 1.0.0-beta.3\nnoirc version = 1.0.0-beta.3+ceaa1986628197bd1170147f6a07f0f98d21030a\n(git version hash: ceaa1986628197bd1170147f6a07f0f98d21030a, is dirty: false)",
+    "bb": "v0.82.2"
+  },
+  "proof_flags": [
+    "-s",
+    "ultra_honk",
+    "--oracle_hash",
+    "keccak",
+    "--zk"
+  ],
+  "artifacts": [
+    {
+      "circuit": "circuit",
+      "circuit_sha256": "011626e7f7d5283e143607355ffc6440c0dca691a80d060f6ed28c59433a957f",
+      "vk_sha256": "db98ebc90cd62b4ffeb4e17e0b62c784c6a4e8088784f587352d7b77cbe0b27f"
+    },
+    {
+      "circuit": "circuit_baseline",
+      "circuit_sha256": "75129d2b3ce7dee0f53e7e40449dee82ca93bc3e55c99e846e269ef1d24ec523",
+      "vk_sha256": "1b96e485d904c7530dc76c2421bb3d87177127f7df5069cf32d5bc47f049bd69"
+    }
+  ]
+}

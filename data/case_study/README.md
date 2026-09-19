@@ -1,6 +1,6 @@
-# Policy drafts
+# Policy fixtures
 
-Four policy documents that the implementation will hash to produce the `policy_version` field input for the policy-bound circuit (see implementation_plan.md §4.8).
+Four policy fixtures used to derive the circuit’s `policy_version` input. Bank allocations and eligibility decisions are illustrative, not historical account observations.
 
 | File | Used by | policy_version source |
 |---|---|---|
@@ -9,7 +9,7 @@ Four policy documents that the implementation will hash to produce the `policy_v
 | `policy_9c.json` | Case study 9c (Mar 31, 2023) | `pedersen_hash(canonical_bytes(policy_9c.json))` |
 | `policy_test.json` | All synthetic scenarios (1-8, S1-S6, T1-T8) | `pedersen_hash(canonical_bytes(policy_test.json))` |
 
-When the `por-zk` project is created, copy this folder to `por-zk/data/case_study/`. The TS helper `encodePolicyJson(path)` performs JCS canonicalization (RFC 8785), UTF-8 encoding, 31-byte chunking, little-endian field conversion, and Pedersen hashing.
+The `encodePolicyJson(path)` helper in `ts/src/policy_hash.ts` sorts JSON object keys recursively, serializes values, encodes UTF-8 bytes into 31-byte chunks, converts each chunk to a little-endian field element, and applies Pedersen hashing. The circuit binds this digest but does not interpret the policy rules.
 
 ## Slot map
 
@@ -29,3 +29,7 @@ The slot indices in the four policy documents are stable across snapshots so tha
 | 9 | unused padding |
 
 Slots 1-7 are the seven cash custodians named in the Deloitte-attested March 6, 2023 Circle USDC Reserve Report. Slot 8 holds the post-crisis banking partner that appears in the March 31, 2023 attestation. Slot 9 is permanent padding to keep the slot count fixed at N = 10.
+
+## Amounts
+
+`usdc_attested.json` records aggregate-inspired inputs rounded to whole USD millions. Component rounding may differ from rounding the report’s grand total. The executable vectors are in `ts/src/case_study.ts`. They yield eligible reserves/supply of 43,800/43,744, 37,670/43,744, and 32,572/32,519 USD millions, with coverage margins of +56, -6,074, and +53 USD millions. `usdc_illustrative_split.json` documents the synthetic bank allocations.
